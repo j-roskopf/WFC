@@ -1,0 +1,290 @@
+{
+  "set": {
+    "-size": "10",
+    "tiles": {
+      "tile": [
+        {
+          "-name": "corner",
+          "-symmetry": "L"
+        },
+        {
+          "-name": "cross",
+          "-symmetry": "I"
+        },
+        {
+          "-name": "empty",
+          "-symmetry": "X"
+        },
+        {
+          "-name": "line",
+          "-symmetry": "I"
+        },
+        {
+          "-name": "t",
+          "-symmetry": "T"
+        }
+      ]
+    },
+    "neighbors": {
+      "neighbor": [
+        {
+          "-left": "corner 1",
+          "-right": "empty"
+        },
+        {
+          "-left": "corner",
+          "-right": "cross"
+        },
+        {
+          "-left": "corner",
+          "-right": "cross 1"
+        },
+        {
+          "-left": "corner",
+          "-right": "line"
+        },
+        {
+          "-left": "corner 1",
+          "-right": "line 1"
+        },
+        {
+          "-left": "corner",
+          "-right": "t 2"
+        },
+        {
+          "-left": "corner",
+          "-right": "t 3"
+        },
+        {
+          "-left": "corner",
+          "-right": "t"
+        },
+        {
+          "-left": "corner 1",
+          "-right": "t 1"
+        },
+        {
+          "-left": "corner 1",
+          "-right": "corner 3"
+        },
+        {
+          "-left": "corner 1",
+          "-right": "corner"
+        },
+        {
+          "-left": "corner",
+          "-right": "corner 1"
+        },
+        {
+          "-left": "corner",
+          "-right": "corner 2"
+        },
+        {
+          "-left": "cross",
+          "-right": "cross"
+        },
+        {
+          "-left": "cross",
+          "-right": "cross 1"
+        },
+        {
+          "-left": "cross 1",
+          "-right": "cross 1"
+        },
+        {
+          "-left": "cross",
+          "-right": "line"
+        },
+        {
+          "-left": "cross 1",
+          "-right": "line"
+        },
+        {
+          "-left": "cross",
+          "-right": "t"
+        },
+        {
+          "-left": "cross",
+          "-right": "t 3"
+        },
+        {
+          "-left": "cross 1",
+          "-right": "t"
+        },
+        {
+          "-left": "cross 1",
+          "-right": "t 3"
+        },
+        {
+          "-left": "empty",
+          "-right": "empty"
+        },
+        {
+          "-left": "empty",
+          "-right": "line 1"
+        },
+        {
+          "-left": "empty",
+          "-right": "t 1"
+        },
+        {
+          "-left": "line",
+          "-right": "line"
+        },
+        {
+          "-left": "line 1",
+          "-right": "line 1"
+        },
+        {
+          "-left": "line",
+          "-right": "t"
+        },
+        {
+          "-left": "line 1",
+          "-right": "t 1"
+        },
+        {
+          "-left": "line",
+          "-right": "t 3"
+        },
+        {
+          "-left": "t 1",
+          "-right": "t 3"
+        },
+        {
+          "-left": "t",
+          "-right": "t"
+        },
+        {
+          "-left": "t 2",
+          "-right": "t"
+        },
+        {
+          "-left": "t 1",
+          "-right": "t"
+        },
+        {
+          "-left": "t 3",
+          "-right": "t 1"
+        }
+      ]
+    },
+    "subsets": {
+      "subset": [
+        {
+          "-name": "Standard",
+          "tile": [
+            {
+              "-name": "corner"
+            },
+            {
+              "-name": "cross"
+            },
+            {
+              "-name": "empty"
+            },
+            {
+              "-name": "line"
+            }
+          ]
+        },
+        {
+          "-name": "Something",
+          "tile": [
+            {
+              "-name": "corner"
+            },
+            {
+              "-name": "cross"
+            },
+            {
+              "-name": "line"
+            }
+          ]
+        },
+        {
+          "-name": "Crossless",
+          "tile": [
+            {
+              "-name": "corner"
+            },
+            {
+              "-name": "empty"
+            },
+            {
+              "-name": "line"
+            }
+          ]
+        },
+        {
+          "-name": "TE",
+          "tile": [
+            {
+              "-name": "t"
+            },
+            {
+              "-name": "empty"
+            }
+          ]
+        },
+        {
+          "-name": "Only T",
+          "tile": [
+            {
+              "-name": "t"
+            }
+          ]
+        },
+        {
+          "-name": "Urban",
+          "tile": [
+            {
+              "-name": "corner"
+            },
+            {
+              "-name": "line"
+            }
+          ]
+        },
+        {
+          "-name": "Suburban",
+          "tile": [
+            {
+              "-name": "corner"
+            },
+            {
+              "-name": "empty"
+            }
+          ]
+        },
+        {
+          "-name": "Manhattan",
+          "tile": [
+            {
+              "-name": "corner"
+            }
+          ]
+        },
+        {
+          "-name": "Fabric",
+          "tile": [
+            {
+              "-name": "cross"
+            },
+            {
+              "-name": "line"
+            }
+          ]
+        },
+        {
+          "-name": "Dense Fabric",
+          "tile": [
+            {
+              "-name": "cross"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "samples": {
+    "overlapping": [
+      {
+        "name": "Chess",
+        "N": "2",
+        "periodic": "True"
+      }
+    ]
+  }
+}

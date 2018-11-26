@@ -1,0 +1,704 @@
+{
+	"set": {
+		"-size": "14",
+		"tiles": {
+			"tile": [
+				{
+					"-name": "bridge",
+					"-symmetry": "I",
+					"-weight": "1.0"
+				},
+				{
+					"-name": "component",
+					"-symmetry": "X",
+					"-weight": "20.0"
+				},
+				{
+					"-name": "connection",
+					"-symmetry": "T",
+					"-weight": "10.0"
+				},
+				{
+					"-name": "corner",
+					"-symmetry": "L",
+					"-weight": "10.0"
+				},
+				{
+					"-name": "substrate",
+					"-symmetry": "X",
+					"-weight": "2.0"
+				},
+				{
+					"-name": "t",
+					"-symmetry": "T",
+					"-weight": "0.1"
+				},
+				{
+					"-name": "track",
+					"-symmetry": "I",
+					"-weight": "2.0"
+				},
+				{
+					"-name": "transition",
+					"-symmetry": "T",
+					"-weight": "0.4"
+				},
+				{
+					"-name": "turn",
+					"-symmetry": "L",
+					"-weight": "1.0"
+				},
+				{
+					"-name": "viad",
+					"-symmetry": "I",
+					"-weight": "0.1"
+				},
+				{
+					"-name": "vias",
+					"-symmetry": "T",
+					"-weight": "0.3"
+				},
+				{
+					"-name": "wire",
+					"-symmetry": "I",
+					"-weight": "0.5"
+				},
+				{
+					"-name": "skew",
+					"-symmetry": "L",
+					"-weight": "2.0"
+				},
+				{
+					"-name": "dskew",
+					"-symmetry": "\\",
+					"-weight": "2.0"
+				}
+			]
+		},
+		"neighbors": {
+			"neighbor": [
+				{
+					"-left": "bridge",
+					"-right": "bridge"
+				},
+				{
+					"-left": "bridge 1",
+					"-right": "bridge 1"
+				},
+				{
+					"-left": "bridge 1",
+					"-right": "connection 1"
+				},
+				{
+					"-left": "bridge 1",
+					"-right": "t 2"
+				},
+				{
+					"-left": "bridge 1",
+					"-right": "t 3"
+				},
+				{
+					"-left": "bridge 1",
+					"-right": "track 1"
+				},
+				{
+					"-left": "bridge",
+					"-right": "transition 1"
+				},
+				{
+					"-left": "bridge 1",
+					"-right": "turn 1"
+				},
+				{
+					"-left": "bridge 1",
+					"-right": "viad"
+				},
+				{
+					"-left": "bridge 1",
+					"-right": "vias 1"
+				},
+				{
+					"-left": "bridge",
+					"-right": "wire"
+				},
+				{
+					"-left": "component",
+					"-right": "component"
+				},
+				{
+					"-left": "connection 1",
+					"-right": "component"
+				},
+				{
+					"-left": "connection",
+					"-right": "connection"
+				},
+				{
+					"-left": "connection",
+					"-right": "corner"
+				},
+				{
+					"-left": "t 1",
+					"-right": "connection 1"
+				},
+				{
+					"-left": "t 2",
+					"-right": "connection 1"
+				},
+				{
+					"-left": "track 1",
+					"-right": "connection 1"
+				},
+				{
+					"-left": "turn",
+					"-right": "connection 1"
+				},
+				{
+					"-left": "substrate",
+					"-right": "corner 1"
+				},
+				{
+					"-left": "t 3",
+					"-right": "corner 1"
+				},
+				{
+					"-left": "track",
+					"-right": "corner 1"
+				},
+				{
+					"-left": "transition 2",
+					"-right": "corner 1"
+				},
+				{
+					"-left": "transition",
+					"-right": "corner 1"
+				},
+				{
+					"-left": "turn 1",
+					"-right": "corner 1"
+				},
+				{
+					"-left": "turn 2",
+					"-right": "corner 1"
+				},
+				{
+					"-left": "viad 1",
+					"-right": "corner 1"
+				},
+				{
+					"-left": "vias 1",
+					"-right": "corner 1"
+				},
+				{
+					"-left": "vias 2",
+					"-right": "corner 1"
+				},
+				{
+					"-left": "vias",
+					"-right": "corner 1"
+				},
+				{
+					"-left": "wire 1",
+					"-right": "corner 1"
+				},
+				{
+					"-left": "substrate",
+					"-right": "substrate"
+				},
+				{
+					"-left": "substrate",
+					"-right": "t 1"
+				},
+				{
+					"-left": "substrate",
+					"-right": "track"
+				},
+				{
+					"-left": "substrate",
+					"-right": "transition 2"
+				},
+				{
+					"-left": "substrate",
+					"-right": "turn"
+				},
+				{
+					"-left": "substrate",
+					"-right": "viad 1"
+				},
+				{
+					"-left": "substrate",
+					"-right": "vias 2"
+				},
+				{
+					"-left": "substrate",
+					"-right": "vias 3"
+				},
+				{
+					"-left": "substrate",
+					"-right": "wire 1"
+				},
+				{
+					"-left": "t 1",
+					"-right": "t 3"
+				},
+				{
+					"-left": "t 3",
+					"-right": "t 1"
+				},
+				{
+					"-left": "t 1",
+					"-right": "t 2"
+				},
+				{
+					"-left": "t 2",
+					"-right": "t 2"
+				},
+				{
+					"-left": "t 2",
+					"-right": "t"
+				},
+				{
+					"-left": "t 3",
+					"-right": "track"
+				},
+				{
+					"-left": "t 1",
+					"-right": "track 1"
+				},
+				{
+					"-left": "t 2",
+					"-right": "track 1"
+				},
+				{
+					"-left": "t 1",
+					"-right": "transition 3"
+				},
+				{
+					"-left": "t 3",
+					"-right": "transition 2"
+				},
+				{
+					"-left": "t 2",
+					"-right": "transition 3"
+				},
+				{
+					"-left": "t 3",
+					"-right": "turn"
+				},
+				{
+					"-left": "t 1",
+					"-right": "turn 1"
+				},
+				{
+					"-left": "t 2",
+					"-right": "turn 1"
+				},
+				{
+					"-left": "t 2",
+					"-right": "turn 2"
+				},
+				{
+					"-left": "t 3",
+					"-right": "viad 1"
+				},
+				{
+					"-left": "t 1",
+					"-right": "viad"
+				},
+				{
+					"-left": "t 2",
+					"-right": "viad"
+				},
+				{
+					"-left": "t 2",
+					"-right": "vias 1"
+				},
+				{
+					"-left": "t 1",
+					"-right": "vias 1"
+				},
+				{
+					"-left": "vias 1",
+					"-right": "t 1"
+				},
+				{
+					"-left": "vias 2",
+					"-right": "t 1"
+				},
+				{
+					"-left": "wire 1",
+					"-right": "t 1"
+				},
+				{
+					"-left": "track",
+					"-right": "track"
+				},
+				{
+					"-left": "track 1",
+					"-right": "track 1"
+				},
+				{
+					"-left": "track 1",
+					"-right": "transition 3"
+				},
+				{
+					"-left": "track",
+					"-right": "transition 2"
+				},
+				{
+					"-left": "track",
+					"-right": "turn"
+				},
+				{
+					"-left": "track 1",
+					"-right": "turn 1"
+				},
+				{
+					"-left": "track",
+					"-right": "viad 1"
+				},
+				{
+					"-left": "track 1",
+					"-right": "viad"
+				},
+				{
+					"-left": "track",
+					"-right": "vias 2"
+				},
+				{
+					"-left": "track",
+					"-right": "vias 3"
+				},
+				{
+					"-left": "track 1",
+					"-right": "vias 1"
+				},
+				{
+					"-left": "track",
+					"-right": "wire 1"
+				},
+				{
+					"-left": "transition 2",
+					"-right": "turn"
+				},
+				{
+					"-left": "transition",
+					"-right": "turn"
+				},
+				{
+					"-left": "transition 1",
+					"-right": "turn 1"
+				},
+				{
+					"-left": "transition 2",
+					"-right": "viad 1"
+				},
+				{
+					"-left": "transition 2",
+					"-right": "vias 2"
+				},
+				{
+					"-left": "transition 2",
+					"-right": "vias 3"
+				},
+				{
+					"-left": "transition 2",
+					"-right": "vias"
+				},
+				{
+					"-left": "wire",
+					"-right": "transition 1"
+				},
+				{
+					"-left": "transition 2",
+					"-right": "wire 1"
+				},
+				{
+					"-left": "turn 1",
+					"-right": "turn"
+				},
+				{
+					"-left": "turn 2",
+					"-right": "turn"
+				},
+				{
+					"-left": "turn",
+					"-right": "turn 1"
+				},
+				{
+					"-left": "turn",
+					"-right": "turn 2"
+				},
+				{
+					"-left": "turn 1",
+					"-right": "viad 1"
+				},
+				{
+					"-left": "turn",
+					"-right": "viad"
+				},
+				{
+					"-left": "turn 1",
+					"-right": "vias 2"
+				},
+				{
+					"-left": "turn 1",
+					"-right": "vias 3"
+				},
+				{
+					"-left": "turn 1",
+					"-right": "vias"
+				},
+				{
+					"-left": "turn",
+					"-right": "vias 1"
+				},
+				{
+					"-left": "turn 1",
+					"-right": "wire 1"
+				},
+				{
+					"-left": "viad 1",
+					"-right": "viad 1"
+				},
+				{
+					"-left": "viad 1",
+					"-right": "vias 2"
+				},
+				{
+					"-left": "viad 1",
+					"-right": "vias 3"
+				},
+				{
+					"-left": "viad 1",
+					"-right": "wire 1"
+				},
+				{
+					"-left": "vias 1",
+					"-right": "wire 1"
+				},
+				{
+					"-left": "vias 2",
+					"-right": "wire 1"
+				},
+				{
+					"-left": "vias 1",
+					"-right": "vias 3"
+				},
+				{
+					"-left": "vias 2",
+					"-right": "vias 2"
+				},
+				{
+					"-left": "vias 2",
+					"-right": "vias"
+				},
+				{
+					"-left": "wire",
+					"-right": "wire"
+				},
+				{
+					"-left": "wire 1",
+					"-right": "wire 1"
+				},
+				{
+					"-left": "bridge 1",
+					"-right": "dskew"
+				},
+				{
+					"-left": "connection 3",
+					"-right": "dskew"
+				},
+				{
+					"-left": "dskew",
+					"-right": "dskew"
+				},
+				{
+					"-left": "skew",
+					"-right": "dskew"
+				},
+				{
+					"-left": "t",
+					"-right": "dskew"
+				},
+				{
+					"-left": "t 2",
+					"-right": "dskew"
+				},
+				{
+					"-left": "t 1",
+					"-right": "dskew"
+				},
+				{
+					"-left": "track 1",
+					"-right": "dskew"
+				},
+				{
+					"-left": "transition 1",
+					"-right": "dskew"
+				},
+				{
+					"-left": "turn 3",
+					"-right": "dskew"
+				},
+				{
+					"-left": "viad",
+					"-right": "dskew"
+				},
+				{
+					"-left": "vias 3",
+					"-right": "dskew"
+				},
+				{
+					"-left": "skew",
+					"-right": "bridge 1"
+				},
+				{
+					"-left": "skew",
+					"-right": "connection 1"
+				},
+				{
+					"-left": "corner",
+					"-right": "skew"
+				},
+				{
+					"-left": "corner 3",
+					"-right": "skew"
+				},
+				{
+					"-left": "skew",
+					"-right": "dskew"
+				},
+				{
+					"-left": "skew",
+					"-right": "skew 2"
+				},
+				{
+					"-left": "skew 1",
+					"-right": "skew"
+				},
+				{
+					"-left": "skew 1",
+					"-right": "skew 3"
+				},
+				{
+					"-left": "substrate",
+					"-right": "skew"
+				},
+				{
+					"-left": "t 3",
+					"-right": "skew"
+				},
+				{
+					"-left": "t",
+					"-right": "skew 2"
+				},
+				{
+					"-left": "t 2",
+					"-right": "skew 2"
+				},
+				{
+					"-left": "t 1",
+					"-right": "skew 2"
+				},
+				{
+					"-left": "track",
+					"-right": "skew"
+				},
+				{
+					"-left": "track 1",
+					"-right": "skew 2"
+				},
+				{
+					"-left": "transition",
+					"-right": "skew"
+				},
+				{
+					"-left": "transition 1",
+					"-right": "skew 2"
+				},
+				{
+					"-left": "turn 1",
+					"-right": "skew"
+				},
+				{
+					"-left": "turn 2",
+					"-right": "skew"
+				},
+				{
+					"-left": "turn 3",
+					"-right": "skew 2"
+				},
+				{
+					"-left": "viad 1",
+					"-right": "skew"
+				},
+				{
+					"-left": "viad",
+					"-right": "skew 2"
+				},
+				{
+					"-left": "vias",
+					"-right": "skew"
+				},
+				{
+					"-left": "vias 1",
+					"-right": "skew"
+				},
+				{
+					"-left": "vias 2",
+					"-right": "skew"
+				},
+				{
+					"-left": "vias 3",
+					"-right": "skew 2"
+				},
+				{
+					"-left": "wire 1",
+					"-right": "skew"
+				}
+			]
+		},
+		"subsets": {
+			"subset": [
+				{
+					"-name": "Debug",
+					"tile": [
+						{ "-name": "substrate" },
+						{ "-name": "turn" }
+					]
+				},
+				{
+					"-name": "Chips",
+					"tile": [
+						{ "-name": "component" },
+						{ "-name": "substrate" },
+						{ "-name": "turn" },
+						{ "-name": "connection" },
+						{ "-name": "corner" },
+						{ "-name": "track" },
+						{ "-name": "t" }
+					]
+				},
+				{
+					"-name": "Turnless",
+					"tile": [
+						{ "-name": "bridge" },
+						{ "-name": "component" },
+						{ "-name": "connection" },
+						{ "-name": "corner" },
+						{ "-name": "substrate" },
+						{ "-name": "t" },
+						{ "-name": "track" },
+						{ "-name": "transition" },
+						{ "-name": "viad" },
+						{ "-name": "vias" },
+						{ "-name": "wire" },
+						{ "-name": "skew" },
+						{ "-name": "dskew" }
+					]
+				}
+			]
+		}
+	}
+}

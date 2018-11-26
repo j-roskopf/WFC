@@ -1,0 +1,430 @@
+{
+	"set": {
+		"-size": "32",
+		"tiles": {
+			"tile": [
+				{
+					"-name": "b_half",
+					"-symmetry": "T"
+				},
+				{
+					"-name": "b_i",
+					"-symmetry": "I"
+				},
+				{
+					"-name": "b_quarter",
+					"-symmetry": "L"
+				},
+				{
+					"-name": "w_half",
+					"-symmetry": "T"
+				},
+				{
+					"-name": "w_i",
+					"-symmetry": "I"
+				},
+				{
+					"-name": "w_quarter",
+					"-symmetry": "L"
+				},
+				{
+					"-name": "b",
+					"-symmetry": "X"
+				},
+				{
+					"-name": "w",
+					"-symmetry": "X"
+				}
+			]
+		},
+		"neighbors": {
+			"neighbor": [
+				{
+					"-left": "b_half",
+					"-right": "b_half"
+				},
+				{
+					"-left": "b_half 1",
+					"-right": "b_half 3"
+				},
+				{
+					"-left": "b_half 3",
+					"-right": "b_half 1"
+				},
+				{
+					"-left": "b_half",
+					"-right": "b_half 3"
+				},
+				{
+					"-left": "b_half",
+					"-right": "b_half 2"
+				},
+				{
+					"-left": "b_half",
+					"-right": "b_i"
+				},
+				{
+					"-left": "b_half 3",
+					"-right": "b_i 3"
+				},
+				{
+					"-left": "b_half 1",
+					"-right": "b_i"
+				},
+				{
+					"-left": "b_half",
+					"-right": "b_quarter"
+				},
+				{
+					"-left": "b_half 1",
+					"-right": "b_quarter"
+				},
+				{
+					"-left": "b_half 2",
+					"-right": "b_quarter"
+				},
+				{
+					"-left": "b_half 3",
+					"-right": "b_quarter 1"
+				},
+				{
+					"-left": "b_i",
+					"-right": "b_i"
+				},
+				{
+					"-left": "b_i 1",
+					"-right": "b_i 1"
+				},
+				{
+					"-left": "b_i",
+					"-right": "b_quarter"
+				},
+				{
+					"-left": "b_i 1",
+					"-right": "b_quarter 1"
+				},
+				{
+					"-left": "b_quarter",
+					"-right": "b_quarter 1"
+				},
+				{
+					"-left": "b_quarter 1",
+					"-right": "b_quarter"
+				},
+				{
+					"-left": "b_quarter 2",
+					"-right": "b_quarter"
+				},
+				{
+					"-left": "b_quarter",
+					"-right": "b_quarter 2"
+				},
+				{
+					"-left": "b_half 1",
+					"-right": "w_half 1"
+				},
+				{
+					"-left": "b_half",
+					"-right": "w_half 1"
+				},
+				{
+					"-left": "b_half 3",
+					"-right": "w_half"
+				},
+				{
+					"-left": "b_half 3",
+					"-right": "w_half 3"
+				},
+				{
+					"-left": "b_half",
+					"-right": "w_i 1"
+				},
+				{
+					"-left": "b_half 1",
+					"-right": "w_i 1"
+				},
+				{
+					"-left": "b_half 3",
+					"-right": "w_i"
+				},
+				{
+					"-left": "b_half",
+					"-right": "w_quarter 1"
+				},
+				{
+					"-left": "b_half",
+					"-right": "w_quarter 2"
+				},
+				{
+					"-left": "b_half 1",
+					"-right": "w_quarter 1"
+				},
+				{
+					"-left": "b_half 3",
+					"-right": "w_quarter"
+				},
+				{
+					"-left": "b_i",
+					"-right": "w_half 1"
+				},
+				{
+					"-left": "b_i 1",
+					"-right": "w_half"
+				},
+				{
+					"-left": "b_i 1",
+					"-right": "w_half 3"
+				},
+				{
+					"-left": "b_i",
+					"-right": "w_i 1"
+				},
+				{
+					"-left": "b_i 1",
+					"-right": "w_i"
+				},
+				{
+					"-left": "b_i",
+					"-right": "w_quarter 1"
+				},
+				{
+					"-left": "b_i 1",
+					"-right": "w_quarter"
+				},
+				{
+					"-left": "b_quarter",
+					"-right": "w_half"
+				},
+				{
+					"-left": "b_quarter",
+					"-right": "w_half 3"
+				},
+				{
+					"-left": "b_quarter",
+					"-right": "w_half 2"
+				},
+				{
+					"-left": "b_quarter 1",
+					"-right": "w_half 1"
+				},
+				{
+					"-left": "b_quarter",
+					"-right": "w_i"
+				},
+				{
+					"-left": "b_quarter 1",
+					"-right": "w_i 1"
+				},
+				{
+					"-left": "b_quarter",
+					"-right": "w_quarter"
+				},
+				{
+					"-left": "b_quarter",
+					"-right": "w_quarter 3"
+				},
+				{
+					"-left": "b_quarter 1",
+					"-right": "w_quarter 1"
+				},
+				{
+					"-left": "b_quarter 1",
+					"-right": "w_quarter 2"
+				},
+				{
+					"-left": "w_half",
+					"-right": "w_half"
+				},
+				{
+					"-left": "w_half 1",
+					"-right": "w_half 3"
+				},
+				{
+					"-left": "w_half 3",
+					"-right": "w_half 1"
+				},
+				{
+					"-left": "w_half",
+					"-right": "w_half 3"
+				},
+				{
+					"-left": "w_half",
+					"-right": "w_half 2"
+				},
+				{
+					"-left": "w_half",
+					"-right": "w_i"
+				},
+				{
+					"-left": "w_half 3",
+					"-right": "w_i 3"
+				},
+				{
+					"-left": "w_half 1",
+					"-right": "w_i"
+				},
+				{
+					"-left": "w_half",
+					"-right": "w_quarter"
+				},
+				{
+					"-left": "w_half 1",
+					"-right": "w_quarter"
+				},
+				{
+					"-left": "w_half 2",
+					"-right": "w_quarter"
+				},
+				{
+					"-left": "w_half 3",
+					"-right": "w_quarter 1"
+				},
+				{
+					"-left": "w_i",
+					"-right": "w_i"
+				},
+				{
+					"-left": "w_i 1",
+					"-right": "w_i 1"
+				},
+				{
+					"-left": "w_i",
+					"-right": "w_quarter"
+				},
+				{
+					"-left": "w_i 1",
+					"-right": "w_quarter 1"
+				},
+				{
+					"-left": "w_quarter",
+					"-right": "w_quarter 1"
+				},
+				{
+					"-left": "w_quarter 1",
+					"-right": "w_quarter"
+				},
+				{
+					"-left": "w_quarter 2",
+					"-right": "w_quarter"
+				},
+				{
+					"-left": "w_quarter",
+					"-right": "w_quarter 2"
+				},
+				{
+					"-left": "b",
+					"-right": "b"
+				},
+				{
+					"-left": "b",
+					"-right": "b_half 1"
+				},
+				{
+					"-left": "b",
+					"-right": "b_i 1"
+				},
+				{
+					"-left": "b",
+					"-right": "b_quarter 1"
+				},
+				{
+					"-left": "b",
+					"-right": "w_half"
+				},
+				{
+					"-left": "b",
+					"-right": "w_half 3"
+				},
+				{
+					"-left": "b",
+					"-right": "w_i"
+				},
+				{
+					"-left": "b",
+					"-right": "w_quarter"
+				},
+				{
+					"-left": "w",
+					"-right": "w"
+				},
+				{
+					"-left": "w",
+					"-right": "w_half 1"
+				},
+				{
+					"-left": "w",
+					"-right": "w_i 1"
+				},
+				{
+					"-left": "w",
+					"-right": "w_quarter 1"
+				},
+				{
+					"-left": "w",
+					"-right": "b_half"
+				},
+				{
+					"-left": "w",
+					"-right": "b_half 3"
+				},
+				{
+					"-left": "w",
+					"-right": "b_i"
+				},
+				{
+					"-left": "w",
+					"-right": "b_quarter"
+				}
+			]
+		},
+		"subsets": {
+			"subset": [
+				{
+					"-name": "Large",
+					"tile": [
+						{ "-name": "b_quarter" },
+						{ "-name": "w_quarter" }
+					]
+				},
+				{
+					"-name": "More",
+					"tile": [
+						{ "-name": "b_quarter" },
+						{ "-name": "w_quarter" },
+						{ "-name": "b" },
+						{ "-name": "w" }
+					]
+				},
+				{
+					"-name": "Without",
+					"tile": [
+						{
+							"-name": "b_half",
+							"-symmetry": "T"
+						},
+						{
+							"-name": "b_i",
+							"-symmetry": "I"
+						},
+						{
+							"-name": "b_quarter",
+							"-symmetry": "L"
+						},
+						{
+							"-name": "w_half",
+							"-symmetry": "T"
+						},
+						{
+							"-name": "w_i",
+							"-symmetry": "I"
+						},
+						{
+							"-name": "w_quarter",
+							"-symmetry": "L"
+						}
+					]
+				}
+			]
+		}
+	}
+}
