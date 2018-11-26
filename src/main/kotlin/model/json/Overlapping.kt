@@ -3,24 +3,24 @@ package model.json
 import com.google.gson.annotations.SerializedName
 
 data class Overlapping(
-        @SerializedName("N")
+        @SerializedName("-N")
         val n: String?,
-        @SerializedName("ground")
+        @SerializedName("-ground")
         val ground: String?,
-        @SerializedName("height")
+        @SerializedName("-height")
         val height: String?,
-        @SerializedName("limit")
+        @SerializedName("-limit")
         val limit: String?,
-        @SerializedName("name")
+        @SerializedName("-name")
         val name: String?,
-        @SerializedName("periodic")
+        @SerializedName("-periodic")
         val periodic: String?,
-        @SerializedName("periodicInput")
+        @SerializedName("-periodicInput")
         val periodicInput: String?,
-        @SerializedName("screenshots")
+        @SerializedName("-screenshots")
         val screenshots: String?,
-        @SerializedName("symmetry")
+        @SerializedName("-symmetry")
         val symmetry: String?,
-        @SerializedName("width")
+        @SerializedName("-width")
         val width: String?
 ): CommonModel()

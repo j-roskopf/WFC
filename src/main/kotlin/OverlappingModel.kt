@@ -1,15 +1,8 @@
-import com.sun.org.apache.xpath.internal.operations.Bool
-import javafx.embed.swing.SwingFXUtils
-import javafx.scene.image.WritableImage
 import model.Model
 import java.awt.Color
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import java.io.File
-import javax.swing.text.html.HTML.Attribute.N
-import javax.swing.text.html.HTML.Attribute.N
-import sun.security.util.Length
-
 
 class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, periodicInput: Boolean,
                        periodicOutput: Boolean, symmetry: Int, ground: Int) : Model(width, height) {
@@ -25,25 +18,25 @@ class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, pe
 
         val SMX = bitmap.width
         val SMY = bitmap.height
-        val sample = arrayOfNulls<ArrayList<Byte>>(SMX * SMY)
+        val sample = Array(SMX) { ByteArray(SMY) }
         colors = ArrayList()
 
         for (y in 0 until SMY) {
             for (x in 0 until SMX) {
                 val color = Color(bitmap.getRGB(x, y))
                 var i = 0
-                colors?.forEach foreach@{
-                    if (it == color) return@foreach
-                    i++
+                run breakOut@{
+                    colors?.forEach {
+                        if (it == color) {
+                            return@breakOut
+                        }
+                        i++
+                    }
                 }
 
+
                 if (i == colors?.size ?: -1) colors?.add(color)
-                if (sample[x] == null) {
-                    sample[x] = ArrayList()
-                }
-                //TODO joe check here
-                // sample[x]?.set(y, i.toByte())
-                sample[x]?.add(i.toByte())
+                sample[x][y] = i.toByte()
             }
         }
 
@@ -58,7 +51,7 @@ class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, pe
 
         fun patternFromSample(x: Int, y: Int): ByteArray {
             return pattern { dx, dy ->
-                sample[(x + dx) % SMX]?.get((y + dy) % SMY)!!
+                sample[(x + dx) % SMX][(y + dy) % SMY]
             }
         }
 
@@ -180,12 +173,20 @@ class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, pe
         val result = BufferedImage(FMX, FMY, BufferedImage.TYPE_4BYTE_ABGR)
         if (observed != null) {
             for (y in 0 until FMY) {
-                val dy = if (y < FMY - N + 1) 0 else N - 1
+                val dy = if (y < FMY - N + 1){
+                    0
+                } else{
+                    N - 1
+                }
                 for (x in 0 until FMX) {
-                    val dx = if (x < FMX - N + 1) 0 else N - 1
+                    val dx = if (x < FMX - N + 1){
+                        0
+                    } else {
+                        N - 1
+                    }
                     val c = colors!![patterns!![observed!![x - dx + (y - dy) * FMX]]!![dx + dy * N].toInt()]
                     val temp = (-0x1000000 or (c.red shl 16) or (c.green shl 8) or c.blue)
-                    result.setRGB(x, y * FMX, temp)
+                    result.setRGB(x, y, temp)
                 }
             }
         } else {

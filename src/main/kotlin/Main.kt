@@ -12,9 +12,6 @@ import model.json.Simpletiled
 import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
 
-
-
-
 class Main {
     companion object {
         private val gson = Gson()

@@ -172,15 +172,15 @@ abstract class Model(val FMX: Int, val FMY: Int) {
         Clear()
         random = Random(seed)
 
-        for (l in 0 until limit) {
-            if (limit == 0) break
+        var l = 0
+        do {
             val result = observe()
             if (result != null) {
                 return result
             }
             Propagate()
-        }
-
+            l++
+        }while (l < limit || limit == 0)
 
         return true
     }
