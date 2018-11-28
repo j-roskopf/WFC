@@ -9,7 +9,6 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
 import javax.imageio.ImageIO
-import java.lang.StringBuilder
 
 
 class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: String, periodic: Boolean, black: Boolean) : Model(width, height) {
@@ -34,14 +33,17 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
             tilesize = data.set?.size?.toInt() ?: 16
             val unique = data.set?.unique?.toBoolean() ?: false
 
-            val subset: ArrayList<String> = arrayListOf()
+            var subset: ArrayList<String>? = null
             if (!subsetName.isEmpty()) {
                 val xSubSet = data.set?.subsets?.subset?.first()?.name
                 if (xSubSet == null) {
                     println("ERROR SUBSET $subsetName not found")
                 } else {
                     data.set.tiles?.tile?.forEach {
-                        subset.add(it?.name ?: "")
+                        if(subset == null) {
+                            subset = ArrayList()
+                        }
+                        subset?.add(it?.name ?: "")
                     }
                 }
             }
@@ -67,7 +69,7 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
 
             data.set?.tiles?.tile?.forEach beginning@{ tile ->
                 val tileName = tile?.name ?: ""
-                if (useSubset && !subset.contains(tileName)) {
+                if (useSubset && !subset!!.contains(tileName)) {
                     return@beginning
                 }
 
@@ -120,7 +122,9 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
                     map[t]?.set(6, b(a(a(t))))
                     map[t]?.set(7, b(a(a(a(t)))))
 
-                    for (s in 0..7) map[t]?.set(s, T)
+                    for (s in 0..7) {
+                        map[t]!![s] = map[t]!![s] + T
+                    }
 
                     map[t]?.let { action.add(it) }
                 }
@@ -131,10 +135,7 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
                         tiles.add(
                                 tile { x, y ->
                                     val color = bufferedImage.getRGB(x, y)
-                                    val red = color and 0x00ff0000 shr 16
-                                    val green = color and 0x0000ff00 shr 8
-                                    val blue = color and 0x000000ff
-                                    Color(red, green, blue)
+                                    Color(color)
                                 }
                         )
                         tilenames.add("$tileName $t")
@@ -144,10 +145,7 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
                     tiles.add(
                             tile { x, y ->
                                 val color = bufferedImage.getRGB(x, y)
-                                val red = color and 0x00ff0000 shr 16
-                                val green = color and 0x0000ff00 shr 8
-                                val blue = color and 0x000000ff
-                                Color(red, green, blue)
+                                Color(color)
                             }
                     )
                     tilenames.add("$tileName ${0}")
@@ -173,7 +171,7 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
                 for (t in 0 until T) tempPropagator[d]?.set(t, arrayOfNulls(T))
             }
 
-            data.set?.neighbors?.neighbor?.forEach { neighbor ->
+            data.set?.neighbors?.neighbor?.forEach breakOut@{ neighbor ->
                 val left = neighbor?.left?.split(" ".toRegex(), 0)?.filter {
                     it.isNotEmpty()
                 }
@@ -181,7 +179,7 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
                     it.isNotEmpty()
                 }
 
-                if (subset != null && (!subset.contains(left?.get(0)) || !subset.contains(right?.get(0)))) return@forEach
+                if (subset != null && (!subset!!.contains(left?.get(0)) || !subset!!.contains(right?.get(0)))) return@breakOut
 
                 val L = action[firstOccurence[left?.get(0)]
                         ?: 0][if (left?.size == 1) 0 else left?.get(1)?.toInt() ?: 0]
@@ -190,16 +188,18 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
                         ?: 0][if (right?.size == 1) 0 else right?.get(1)?.toInt() ?: 0]
                 val U = action[R][1]
 
-                tempPropagator[0]?.get(R)?.set(L, true)
-                tempPropagator[0]?.get(action[R][6])?.set(action[L][6], true)
-                tempPropagator[0]?.get(action[L][4])?.set(action[R][4], true)
-                tempPropagator[0]?.get(action[L][2])?.set(action[R][2], true)
+                tempPropagator[0]!![R]!![L] = true
+                tempPropagator[0]!![action[R][6]]!![action[L][6]] = true
+                tempPropagator[0]!![action[L][4]]!![action[R][4]] = true
+                tempPropagator[0]!![action[L][2]]!![action[R][2]] = true
 
-                tempPropagator[1]?.get(U)?.set(D, true)
-                tempPropagator[1]?.get(action[D][6])?.set(action[U][6], true)
-                tempPropagator[1]?.get(action[U][4])?.set(action[D][4], true)
-                tempPropagator[1]?.get(action[D][2])?.set(action[U][2], true)
+                tempPropagator[1]!![U]!![D] = true
+                tempPropagator[1]!![action[D][6]]!![action[U][6]] = true
+                tempPropagator[1]!![action[U][4]]!![action[D][4]] = true
+                tempPropagator[1]!![action[D][2]]!![action[U][2]] = true
+
             }
+
 
             for (t2 in 0 until T) {
                 for (t1 in 0 until T) {
@@ -234,7 +234,7 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
     }
 
     override fun Graphics(): BufferedImage? {
-        val result = BufferedImage(FMX * tilesize, FMY * tilesize, BufferedImage.TYPE_INT_RGB)
+        val result = BufferedImage(FMX * tilesize, FMY * tilesize, BufferedImage.TYPE_4BYTE_ABGR)
 
         if (observed != null) {
             for (x in 0 until FMX)
@@ -243,9 +243,7 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
                     for (yt in 0 until tilesize)
                         for (xt in 0 until tilesize) {
                             val c = tile[xt + yt * tilesize]
-                            val temp = (-0x1000000 or (c?.red
-                                    ?: 0 shl 16) or (c?.green ?: 0 shl 8) or (c?.blue ?: 0))
-                            result.setRGB(x * tilesize + xt, y * tilesize + yt, temp)
+                            result.setRGB(x * tilesize + xt, y * tilesize + yt, c!!.rgb)
                         }
                 }
         } else {
@@ -268,7 +266,6 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
                                 for (t in 0 until T) {
                                     if (wave[x + y * FMX]?.get(t) == true) {
                                         val c = tiles[t][xt + yt * tilesize]
-                                        val temp = name
                                         r += c?.red?.toDouble() ?: 0.0 * weights[t] * lambda
                                         g += c?.green?.toDouble() ?: 0.0 * weights[t] * lambda
                                         b += c?.blue?.toDouble() ?: 0.0 * weights[t] * lambda
