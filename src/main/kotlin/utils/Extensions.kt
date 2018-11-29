@@ -1,6 +1,5 @@
 package utils
 
-
 fun DoubleArray.random(r: Double): Int {
     var sum = this.sum()
 
@@ -21,5 +20,4 @@ fun DoubleArray.random(r: Double): Int {
     }
 
     return 0
-
 }
