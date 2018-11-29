@@ -7,22 +7,22 @@ import java.io.File
 class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, periodicInput: Boolean,
                        periodicOutput: Boolean, symmetry: Int, ground: Int) : Model(width, height) {
 
-    var patterns: Array<ByteArray?>? = null
-    var colors: ArrayList<Color>? = null
-    var ground: Int = 0
+    private var patterns: Array<ByteArray?>? = null
+    private var colors: ArrayList<Color>? = null
+    private var ground: Int = 0
 
     init {
         periodic = periodicOutput
         val imageFile = File("samples/$name.png")
         val bitmap = ImageIO.read(imageFile)
 
-        val SMX = bitmap.width
-        val SMY = bitmap.height
-        val sample = Array(SMX) { ByteArray(SMY) }
+        val smx = bitmap.width
+        val smy = bitmap.height
+        val sample = Array(smx) { ByteArray(smy) }
         colors = ArrayList()
 
-        for (y in 0 until SMY) {
-            for (x in 0 until SMX) {
+        for (y in 0 until smy) {
+            for (x in 0 until smx) {
                 val color = Color(bitmap.getRGB(x, y))
                 var i = 0
                 run breakOut@{
@@ -40,8 +40,8 @@ class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, pe
             }
         }
 
-        val C = colors?.size ?: 0
-        val W = Math.pow(C.toDouble(), (N * N).toDouble())
+        val c = colors?.size ?: 0
+        val w = Math.pow(c.toDouble(), (N * N).toDouble())
 
         fun pattern(passedInFunc: (Int, Int) -> Byte): ByteArray {
             val result = ByteArray(N * N)
@@ -51,7 +51,7 @@ class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, pe
 
         fun patternFromSample(x: Int, y: Int): ByteArray {
             return pattern { dx, dy ->
-                sample[(x + dx) % SMX][(y + dy) % SMY]
+                sample[(x + dx) % smx][(y + dy) % smy]
             }
         }
 
@@ -72,18 +72,18 @@ class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, pe
             var power: Long = 1
             for (i in 0 until p.size) {
                 result += p[p.size - 1 - i] * power
-                power *= C
+                power *= c
             }
             return result
         }
 
         fun patternFromIndex(ind: Long): ByteArray {
             var residue = ind
-            var power = W.toLong()
+            var power = w.toLong()
             val result = ByteArray(N * N)
 
             for (i in 0 until result.size) {
-                power /= C
+                power /= c
                 var count = 0
 
                 while (residue >= power) {
@@ -97,11 +97,11 @@ class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, pe
             return result
         }
 
-        var weights = HashMap<Long, Int>()
+        val weights = HashMap<Long, Int>()
         val ordering = ArrayList<Long>()
 
-        for (y in 0 until (if (periodicInput) SMY else SMY - N + 1)) {
-            for (x in 0 until (if (periodicInput) SMX else SMX - N + 1)) {
+        for (y in 0 until (if (periodicInput) smy else smy - N + 1)) {
+            for (x in 0 until (if (periodicInput) smx else smx - N + 1)) {
                 val ps = arrayOfNulls<ByteArray>(8)
                 ps[0] = patternFromSample(x, y)
                 ps[1] = reflect(ps[0]!!)
@@ -124,25 +124,25 @@ class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, pe
             }
         }
 
-        T = weights.size
-        this.ground = (ground + T) % T
-        patterns = arrayOfNulls(T)
-        this.weights = DoubleArray(T)
+        tCounter = weights.size
+        this.ground = (ground + tCounter) % tCounter
+        patterns = arrayOfNulls(tCounter)
+        this.weights = DoubleArray(tCounter)
 
         var counter = 0
-        ordering.forEach { w ->
-            patterns!![counter] = patternFromIndex(w)
-            this.weights[counter] = weights[w]?.toDouble() ?: 0.0
+        ordering.forEach { orderItem ->
+            patterns!![counter] = patternFromIndex(orderItem)
+            this.weights[counter] = weights[orderItem]?.toDouble() ?: 0.0
             counter++
         }
 
         fun agrees(p1: ByteArray, p2: ByteArray, dx: Int, dy: Int): Boolean {
-            val xmin = if (dx < 0) 0 else dx
-            val xmax = if (dx < 0) dx + N else N
-            val ymin = if (dy < 0) 0 else dy
-            val ymax = if (dy < 0) dy + N else N
+            val xMin = if (dx < 0) 0 else dx
+            val xMax = if (dx < 0) dx + N else N
+            val yMin = if (dy < 0) 0 else dy
+            val yMax = if (dy < 0) dy + N else N
 
-            for (y in ymin until ymax) for (x in xmin until xmax) {
+            for (y in yMin until yMax) for (x in xMin until xMax) {
                 if (p1[x + N * y] != p2[x - dx + N * (y - dy)]) return false
             }
             return true
@@ -150,26 +150,26 @@ class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, pe
 
         propagator = arrayOfNulls(4)
         for (d in 0 until 4) {
-            propagator[d] = arrayOfNulls(T)
-            for (t in 0 until T) {
+            propagator[d] = arrayOfNulls(tCounter)
+            for (t in 0 until tCounter) {
                 val list = ArrayList<Int>()
-                for (t2 in 0 until T) {
-                    if (agrees(patterns!![t]!!, patterns!![t2]!!, DX[d], DY[d])) {
+                for (t2 in 0 until tCounter) {
+                    if (agrees(patterns!![t]!!, patterns!![t2]!!, dx[d], dy[d])) {
                         list.add(t2)
                     }
                 }
                 propagator[d]?.set(t, IntArray(list.size))
-                for (c in 0 until list.size) propagator[d]?.get(t)?.set(c, list[c])
+                for (i in 0 until list.size) propagator[d]?.get(t)?.set(i, list[i])
             }
         }
 
     }
 
-    override fun OnBoundary(x: Int, y: Int): Boolean {
+    override fun onBoundary(x: Int, y: Int): Boolean {
         return !periodic && (x + N > FMX || y + N > FMY || x < 0 || y < 0)
     }
 
-    override fun Graphics(): BufferedImage? {
+    override fun graphics(): BufferedImage? {
         val result = BufferedImage(FMX, FMY, BufferedImage.TYPE_4BYTE_ABGR)
         if (observed != null) {
             for (y in 0 until FMY) {
@@ -207,11 +207,11 @@ class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, pe
                         if (sy < 0) sy += FMY
 
                         val s = sx + sy * FMX
-                        if (OnBoundary(sx, sy)){
+                        if (onBoundary(sx, sy)){
                             continue
                         }
 
-                        for (t in 0 until T) {
+                        for (t in 0 until tCounter) {
                             if (wave[s]?.get(t) == true) {
                                 contributors++
                                 val color = colors!![patterns?.get(t)!![dx + dy * N].toInt()]
@@ -232,16 +232,16 @@ class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, pe
         return result
     }
 
-    override fun Clear() {
-        super.Clear()
+    override fun clear() {
+        super.clear()
 
         if (ground != 0) {
             for (x in 0 until FMX) {
-                for (t in 0 until T) if (t != ground) ban(x + (FMY - 1) * FMX, t)
+                for (t in 0 until tCounter) if (t != ground) ban(x + (FMY - 1) * FMX, t)
                 for (y in 0 until FMY - 1) ban(x + y * FMX, ground)
             }
 
-            Propagate()
+            propagate()
         }
     }
 }

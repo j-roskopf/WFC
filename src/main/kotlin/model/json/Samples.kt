@@ -1,7 +1,6 @@
 package model.json
 
 import com.google.gson.annotations.SerializedName
-import model.Model
 
 data class Samples(
         @SerializedName("overlapping")

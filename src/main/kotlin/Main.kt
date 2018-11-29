@@ -62,18 +62,16 @@ class Main {
                         name = commonModel.name?: "WRONG NAME 2"
                     }
 
-                    for(i in 0 until screenshots) {
+                    outer@for(i in 0 until screenshots) {
                         for(k in 0 until 10) {
-                            println("> ")
                             val seed = random.nextInt()
-                            val finished = model?.Run(seed, limit)
+                            val finished = model?.run(seed, limit)
                             if(finished == true) {
-                                println("DONE")
-                                val image = model?.Graphics()
+                                println("> DONE - $name")
+                                val image = model?.graphics()
                                 val outputFile = File("out/$counter $name $i.png")
                                 ImageIO.write(image, "png", outputFile)
-                            } else {
-                                println("CONTRADICTION")
+                                break@outer
                             }
                         }
                     }

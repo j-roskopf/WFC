@@ -13,10 +13,10 @@ import javax.imageio.ImageIO
 
 class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: String, periodic: Boolean, black: Boolean) : Model(width, height) {
 
-    lateinit var tiles: ArrayList<Array<Color?>>
-    lateinit var tilenames: ArrayList<String>
-    var tilesize: Int = 0
-    var black: Boolean = false
+    private lateinit var tiles: ArrayList<Array<Color?>>
+    private lateinit var tilenames: ArrayList<String>
+    private var tilesize: Int = 0
+    private var black: Boolean = false
     private val useSubset = subsetName.isNotEmpty()
     val gson = Gson()
 
@@ -61,11 +61,11 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
             }
 
             tiles = arrayListOf()
-            tilenames = ArrayList<String>()
+            tilenames = ArrayList()
             val tempStationary = ArrayList<Double>()
             val action = arrayListOf<IntArray>()
 
-            val firstOccurence = HashMap<String, Int>()
+            val firstOccurrence = HashMap<String, Int>()
 
             data.set?.tiles?.tile?.forEach beginning@{ tile ->
                 val tileName = tile?.name ?: ""
@@ -106,8 +106,8 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
                     }
                 }
 
-                T = action.size
-                firstOccurence[tileName] = T
+                tCounter = action.size
+                firstOccurrence[tileName] = tCounter
 
                 val map = arrayOfNulls<IntArray>(cardinality)
                 for (t in 0 until cardinality) {
@@ -123,7 +123,7 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
                     map[t]?.set(7, b(a(a(a(t)))))
 
                     for (s in 0..7) {
-                        map[t]!![s] = map[t]!![s] + T
+                        map[t]!![s] = map[t]!![s] + tCounter
                     }
 
                     map[t]?.let { action.add(it) }
@@ -151,7 +151,7 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
                     tilenames.add("$tileName ${0}")
 
                     for (t in 1 until cardinality) {
-                        tiles.add(rotate(tiles[T + t - 1]))
+                        tiles.add(rotate(tiles[tCounter + t - 1]))
                         tilenames.add("$tileName $t")
                     }
                 }
@@ -159,16 +159,16 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
                 for (t in 0 until cardinality) tempStationary.add(tile?.weight?.toDouble() ?: 1.0)
             }
 
-            T = action.size
+            tCounter = action.size
             weights = tempStationary.toDoubleArray()
 
             propagator = arrayOfNulls<Array<IntArray?>?>(4)
             val tempPropagator = arrayOfNulls<Array<Array<Boolean?>?>>(4)
 
             for (d in 0..3) {
-                tempPropagator[d] = arrayOfNulls(T)
-                propagator[d] = arrayOfNulls(T)
-                for (t in 0 until T) tempPropagator[d]?.set(t, arrayOfNulls(T))
+                tempPropagator[d] = arrayOfNulls(tCounter)
+                propagator[d] = arrayOfNulls(tCounter)
+                for (t in 0 until tCounter) tempPropagator[d]?.set(t, arrayOfNulls(tCounter))
             }
 
             data.set?.neighbors?.neighbor?.forEach breakOut@{ neighbor ->
@@ -181,28 +181,28 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
 
                 if (subset != null && (!subset!!.contains(left?.get(0)) || !subset!!.contains(right?.get(0)))) return@breakOut
 
-                val L = action[firstOccurence[left?.get(0)]
+                val leftPosition = action[firstOccurrence[left?.get(0)]
                         ?: 0][if (left?.size == 1) 0 else left?.get(1)?.toInt() ?: 0]
-                val D = action[L][1]
-                val R = action[firstOccurence[right?.get(0)]
+                val downPosition = action[leftPosition][1]
+                val rightPosition = action[firstOccurrence[right?.get(0)]
                         ?: 0][if (right?.size == 1) 0 else right?.get(1)?.toInt() ?: 0]
-                val U = action[R][1]
+                val upPosition = action[rightPosition][1]
 
-                tempPropagator[0]!![R]!![L] = true
-                tempPropagator[0]!![action[R][6]]!![action[L][6]] = true
-                tempPropagator[0]!![action[L][4]]!![action[R][4]] = true
-                tempPropagator[0]!![action[L][2]]!![action[R][2]] = true
+                tempPropagator[0]!![rightPosition]!![leftPosition] = true
+                tempPropagator[0]!![action[rightPosition][6]]!![action[leftPosition][6]] = true
+                tempPropagator[0]!![action[leftPosition][4]]!![action[rightPosition][4]] = true
+                tempPropagator[0]!![action[leftPosition][2]]!![action[rightPosition][2]] = true
 
-                tempPropagator[1]!![U]!![D] = true
-                tempPropagator[1]!![action[D][6]]!![action[U][6]] = true
-                tempPropagator[1]!![action[U][4]]!![action[D][4]] = true
-                tempPropagator[1]!![action[D][2]]!![action[U][2]] = true
+                tempPropagator[1]!![upPosition]!![downPosition] = true
+                tempPropagator[1]!![action[downPosition][6]]!![action[upPosition][6]] = true
+                tempPropagator[1]!![action[upPosition][4]]!![action[downPosition][4]] = true
+                tempPropagator[1]!![action[downPosition][2]]!![action[upPosition][2]] = true
 
             }
 
 
-            for (t2 in 0 until T) {
-                for (t1 in 0 until T) {
+            for (t2 in 0 until tCounter) {
+                for (t1 in 0 until tCounter) {
                     tempPropagator[2]?.get(t2)?.set(t1, tempPropagator[0]?.get(t1)?.get(t2))
                     tempPropagator[3]?.get(t2)?.set(t1, tempPropagator[1]?.get(t1)?.get(t2))
                 }
@@ -211,29 +211,29 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
             val sparsePropagator = arrayOfNulls<Array<ArrayList<Int>?>>(4)
 
             for (d in 0..3) {
-                sparsePropagator[d] = arrayOfNulls(T)
-                for (t in 0 until T) sparsePropagator[d]?.set(t, arrayListOf())
+                sparsePropagator[d] = arrayOfNulls(tCounter)
+                for (t in 0 until tCounter) sparsePropagator[d]?.set(t, arrayListOf())
             }
 
             for (d in 0..3)
-                for (t1 in 0 until T) {
+                for (t1 in 0 until tCounter) {
                     val sp = sparsePropagator[d]?.get(t1)
                     val tp = tempPropagator[d]?.get(t1)
 
-                    for (t2 in 0 until T) if (tp?.get(t2) == true) sp?.add(t2)
+                    for (t2 in 0 until tCounter) if (tp?.get(t2) == true) sp?.add(t2)
 
-                    val ST = sp?.size ?: 0
-                    propagator[d]?.set(t1, IntArray(ST))
-                    for (st in 0 until ST) sp?.get(st)?.let { propagator[d]?.get(t1)?.set(st, it) }
+                    val size = sp?.size ?: 0
+                    propagator[d]?.set(t1, IntArray(size))
+                    for (st in 0 until size) sp?.get(st)?.let { propagator[d]?.get(t1)?.set(st, it) }
                 }
         }
     }
 
-    override fun OnBoundary(x: Int, y: Int): Boolean {
+    override fun onBoundary(x: Int, y: Int): Boolean {
         return !periodic && (x < 0 || y < 0 || x >= FMX || y >= FMY)
     }
 
-    override fun Graphics(): BufferedImage? {
+    override fun graphics(): BufferedImage? {
         val result = BufferedImage(FMX * tilesize, FMY * tilesize, BufferedImage.TYPE_4BYTE_ABGR)
 
         if (observed != null) {
@@ -253,17 +253,17 @@ class SimpleTiledModel(width: Int, height: Int, val name: String, subsetName: St
                     val amount = a?.asSequence()?.filter {
                         it
                     }?.count()
-                    val lambda = 1.0 / (0 until T).filter { t -> a?.get(t) ?: false }.map { t -> weights[t] }.sum()
+                    val lambda = 1.0 / (0 until tCounter).filter { t -> a?.get(t) ?: false }.map { t -> weights[t] }.sum()
                     for (yt in 0 until tilesize) {
                         for (xt in 0 until tilesize) {
-                            if (black && amount == T) {
+                            if (black && amount == tCounter) {
                                 val blackColor = Color.black
                                 result.setRGB(x * tilesize + xt, y * tilesize + yt, blackColor.rgb)
                             } else {
                                 var r = 0.0
                                 var g = 0.0
                                 var b = 0.0
-                                for (t in 0 until T) {
+                                for (t in 0 until tCounter) {
                                     if (wave[x + y * FMX]?.get(t) == true) {
                                         val c = tiles[t][xt + yt * tilesize]
                                         r += c?.red?.toDouble() ?: 0.0 * weights[t] * lambda

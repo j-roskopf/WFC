@@ -1,7 +1,7 @@
 package utils
 
 
-fun DoubleArray.Random(r: Double): Int {
+fun DoubleArray.random(r: Double): Int {
     var sum = this.sum()
 
     if (sum == 0.0) {

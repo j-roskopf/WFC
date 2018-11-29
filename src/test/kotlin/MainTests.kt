@@ -53,9 +53,9 @@ class MainTests {
 
         for (i in 0 until 2) {
             for (k in 0 until 10) {
-                val finished = model.Run(SEED, 0)
+                val finished = model.run(SEED, 0)
                 if (finished) {
-                    return model.Graphics()
+                    return model.graphics()
                 }
             }
         }
@@ -105,9 +105,9 @@ class MainTests {
 
         for (i in 0 until 2) {
             for (k in 0 until 10) {
-                val finished = model.Run(SEED, 0)
+                val finished = model.run(SEED, 0)
                 if (finished) {
-                    return model.Graphics()
+                    return model.graphics()
                 }
             }
         }

@@ -1,56 +1,51 @@
 package model
 
-import utils.Random
+import utils.random
 import kotlin.random.Random
-import java.awt.Graphics
 import java.awt.image.BufferedImage
-
 
 abstract class Model(val FMX: Int, val FMY: Int) {
 
-    var DX = intArrayOf(-1, 0, 1, 0)
-    var DY = intArrayOf(0, 1, 0, -1)
-    var opposite = intArrayOf(2, 3, 0, 1)
-
-
+    var dx = intArrayOf(-1, 0, 1, 0)
+    var dy = intArrayOf(0, 1, 0, -1)
+    private var opposite = intArrayOf(2, 3, 0, 1)
     lateinit var wave: Array<Array<Boolean>?>
     lateinit var propagator: Array<Array<IntArray?>?>
-    lateinit var compatible: Array<Array<IntArray?>?>
+    private lateinit var compatible: Array<Array<IntArray?>?>
     var observed: IntArray? = null
-    lateinit var stack: Array<Pair<Int, Int>?>
-    lateinit var random: Random
+    private lateinit var stack: Array<Pair<Int, Int>?>
+    private lateinit var random: Random
     lateinit var weights: DoubleArray
-    lateinit var weightLogWeights: DoubleArray
-    lateinit var sumsOfOnes: IntArray
-    lateinit var sumsOfWeights: DoubleArray
-    lateinit var sumsOfWeightLogWeights: DoubleArray
-    lateinit var entropies: DoubleArray
-
-    var sumOfWeights: Double = 0.toDouble()
-    var sumOfWeightLogWeights: Double = 0.toDouble()
-    var startingEntropy: Double = 0.toDouble()
-    var T: Int = 0
-    var stacksize: Int = 0
+    private lateinit var weightLogWeights: DoubleArray
+    private lateinit var sumsOfOnes: IntArray
+    private lateinit var sumsOfWeights: DoubleArray
+    private lateinit var sumsOfWeightLogWeights: DoubleArray
+    private lateinit var entropies: DoubleArray
+    private var sumOfWeights: Double = 0.toDouble()
+    private var sumOfWeightLogWeights: Double = 0.toDouble()
+    private var startingEntropy: Double = 0.toDouble()
+    protected var tCounter: Int = 0
+    private var stackSize: Int = 0
     var periodic: Boolean = false
 
-    fun Init() {
+    private fun init() {
         wave = arrayOfNulls(FMX * FMY)
         compatible = arrayOfNulls(wave.size)
 
         for (i in 0 until wave.size) {
-            wave[i] = Array(T) { false }
-            compatible[i] = arrayOfNulls(T)
+            wave[i] = Array(tCounter) { false }
+            compatible[i] = arrayOfNulls(tCounter)
 
-            for (t in 0 until T) {
+            for (t in 0 until tCounter) {
                 compatible[i]?.set(t, IntArray(4))
             }
         }
 
-        weightLogWeights = DoubleArray(T)
+        weightLogWeights = DoubleArray(tCounter)
         sumOfWeights = 0.0
         sumOfWeightLogWeights = 0.0
 
-        for (t in 0 until T) {
+        for (t in 0 until tCounter) {
             weightLogWeights[t] = weights[t] * Math.log(weights[t])
             sumOfWeights += weights[t]
             sumOfWeightLogWeights += weightLogWeights[t]
@@ -63,17 +58,17 @@ abstract class Model(val FMX: Int, val FMY: Int) {
         sumsOfWeightLogWeights = DoubleArray(FMX * FMY)
         entropies = DoubleArray(FMX * FMY)
 
-        stack = arrayOfNulls(wave.size * T)
-        stacksize = 0
+        stack = arrayOfNulls(wave.size * tCounter)
+        stackSize = 0
 
     }
 
-    fun observe(): Boolean? {
+    private fun observe(): Boolean? {
         var min = 1E+3
-        var argmin = -1
+        var argMin = -1
 
         loop@ for (i in 0 until wave.size) {
-            if (OnBoundary(i % FMX, i / FMX)) continue@loop
+            if (onBoundary(i % FMX, i / FMX)) continue@loop
 
             val amount = sumsOfOnes[i]
             if (amount == 0) return false
@@ -83,28 +78,28 @@ abstract class Model(val FMX: Int, val FMY: Int) {
                 val noise = 1E-6 * random.nextDouble()
                 if (entropy + noise < min) {
                     min = entropy + noise
-                    argmin = i
+                    argMin = i
                 }
             }
         }
 
-        if (argmin == -1) {
+        if (argMin == -1) {
             observed = IntArray(FMX * FMY)
-            for (i in 0 until wave.size) for (t in 0 until T) if (wave[i]?.get(t) == true) {
+            for (i in 0 until wave.size) for (t in 0 until tCounter) if (wave[i]?.get(t) == true) {
                 observed!![i] = t
                 break
             }
             return true
         }
 
-        val distribution = DoubleArray(T)
-        for (t in 0 until T) {
-            distribution[t] = if (wave[argmin]?.get(t) == true) weights[t] else 0.0
+        val distribution = DoubleArray(tCounter)
+        for (t in 0 until tCounter) {
+            distribution[t] = if (wave[argMin]?.get(t) == true) weights[t] else 0.0
         }
-        val r = distribution.Random(random.nextDouble())
+        val r = distribution.random(random.nextDouble())
 
-        val w = wave[argmin]
-        for (t in 0 until T) if (w?.get(t) != (t == r)) ban(argmin, t)
+        val w = wave[argMin]
+        for (t in 0 until tCounter) if (w?.get(t) != (t == r)) ban(argMin, t)
 
         return null
     }
@@ -114,8 +109,8 @@ abstract class Model(val FMX: Int, val FMY: Int) {
 
         val comp = compatible[i]?.get(t)
         for (d in 0..3) comp?.set(d, 0)
-        stack[stacksize] = Pair(i, t)
-        stacksize++
+        stack[stackSize] = Pair(i, t)
+        stackSize++
 
         var sum = sumsOfWeights[i]
         entropies[i] += sumsOfWeightLogWeights[i] / sum - Math.log(sum)
@@ -128,21 +123,21 @@ abstract class Model(val FMX: Int, val FMY: Int) {
         entropies[i] -= sumsOfWeightLogWeights[i] / sum - Math.log(sum)
     }
 
-    protected fun Propagate() {
-        while (stacksize > 0) {
-            val e1 = stack[stacksize - 1]
-            stacksize--
+    protected fun propagate() {
+        while (stackSize > 0) {
+            val e1 = stack[stackSize - 1]
+            stackSize--
 
             val i1 = e1!!.first
             val x1 = i1 % FMX
             val y1 = i1 / FMX
 
             loop@ for (d in 0..3) {
-                val dx = DX[d]
-                val dy = DY[d]
+                val dx = dx[d]
+                val dy = dy[d]
                 var x2 = x1 + dx
                 var y2 = y1 + dy
-                if (OnBoundary(x2, y2)) continue@loop
+                if (onBoundary(x2, y2)) continue@loop
 
                 if (x2 < 0)
                     x2 += FMX
@@ -166,10 +161,10 @@ abstract class Model(val FMX: Int, val FMY: Int) {
         }
     }
 
-    fun Run(seed: Int, limit: Int): Boolean {
-        if (!::wave.isInitialized) Init()
+    fun run(seed: Int, limit: Int): Boolean {
+        if (!::wave.isInitialized) init()
 
-        Clear()
+        clear()
         random = Random(seed)
 
         var l = 0
@@ -178,16 +173,16 @@ abstract class Model(val FMX: Int, val FMY: Int) {
             if (result != null) {
                 return result
             }
-            Propagate()
+            propagate()
             l++
         }while (l < limit || limit == 0)
 
         return true
     }
 
-    open fun Clear() {
+    open fun clear() {
         for (i in 0 until wave.size) {
-            for (t in 0 until T) {
+            for (t in 0 until tCounter) {
                 wave[i]?.set(t, true)
                 for (d in 0..3) propagator[opposite[d]]?.get(t)?.size?.let { compatible[i]?.get(t)?.set(d, it) }
             }
@@ -200,9 +195,9 @@ abstract class Model(val FMX: Int, val FMY: Int) {
 
     }
 
-    abstract fun Graphics(): BufferedImage?
+    abstract fun graphics(): BufferedImage?
 
-    protected abstract fun OnBoundary(x: Int, y: Int): Boolean
+    protected abstract fun onBoundary(x: Int, y: Int): Boolean
 
 }
 
