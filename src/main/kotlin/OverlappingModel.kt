@@ -223,8 +223,6 @@ class OverlappingModel(val name: String, val N: Int, width: Int, height: Int, pe
                     }
                 }
 
-                //todo joe check here
-                //val temp = (-0x1000000 or (r / contributors s 16) or (g / contributors shl 8) or b / contributors
                 val temp = (-0x1000000 or (r / contributors shl 16) or (g / contributors shl 8) or b / contributors).toBigInteger()
                 val color = Color(temp.toInt())
                 result.setRGB(x, y, color.rgb)

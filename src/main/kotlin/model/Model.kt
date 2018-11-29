@@ -80,7 +80,7 @@ abstract class Model(val FMX: Int, val FMY: Int) {
 
             val entropy = entropies[i]
             if (amount > 1 && entropy <= min) {
-                val noise = 1E-6 * kotlin.random.Random.nextDouble()
+                val noise = 1E-6 * random.nextDouble()
                 if (entropy + noise < min) {
                     min = entropy + noise
                     argmin = i
@@ -101,7 +101,7 @@ abstract class Model(val FMX: Int, val FMY: Int) {
         for (t in 0 until T) {
             distribution[t] = if (wave[argmin]?.get(t) == true) weights[t] else 0.0
         }
-        val r = distribution.Random(kotlin.random.Random.nextDouble())
+        val r = distribution.Random(random.nextDouble())
 
         val w = wave[argmin]
         for (t in 0 until T) if (w?.get(t) != (t == r)) ban(argmin, t)

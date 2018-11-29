@@ -6,11 +6,9 @@ import java.io.File
 import java.io.FileReader
 import java.io.BufferedReader
 import kotlin.random.Random
-import model.json.CommonModel
 import model.json.Overlapping
 import model.json.Simpletiled
 import javax.imageio.ImageIO
-import java.awt.image.BufferedImage
 
 class Main {
     companion object {
